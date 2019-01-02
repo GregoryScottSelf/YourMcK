@@ -38,7 +38,7 @@ class  _EntryPage extends State<EntryPage>
       body: Form(
           key: _formKey,
           child: Column(
-            children: <Widget>[
+          children: <Widget>[
               TextFormField(
                 validator: (input) {
                   if(input.isEmpty){

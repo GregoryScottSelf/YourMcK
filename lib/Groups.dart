@@ -1,3 +1,11 @@
+/*
+  TODO
+  *Button to join a new group
+  *Display all the groups the user is in-
+
+
+ */
+
 import 'package:flutter/material.dart';
 import'package:csi380/HomePage.dart';
 class Groups extends StatefulWidget {
