@@ -91,10 +91,16 @@ class  _EntryPage extends State<EntryPage>
             * .pushReplacement Does not allow the user to naviagate back to the 'EntryScreen' page
 
          */
-        print(user);
+        print(user.email);
       //TODO work on user var
-        Navigator.pushReplacement(context,new MaterialPageRoute(
-          builder: (BuildContext context) => new HomePage(),));
+
+        Navigator.pushReplacementNamed(context,'/HomePage');
+
+        /*
+        Navigator.of(context).push(MaterialPageRoute(
+            settings:RouteSettings(name:HomePage()),
+            builder: (context)=>HomePage()));
+            */
       }catch(e){
         Future<Null> SingInError()async{
           await showDialog(

@@ -8,13 +8,16 @@
     *Display modal for improper formatting-done
     *Password length must be at least 6 chars-done
     *Proper formatted email-done
-    *Create text field for name-
-    *Push user info into DB-
+    *Create text field for name-done
+    *Push user info into DB-done
 
  */
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:csi380/entryscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import'package:firebase_database/firebase_database.dart';
+import'dart:async';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -25,6 +28,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _email, _password,fname,lname;
+  
 //creating dialog box for email verification
   Future<Null> userinput()async{
     await showDialog(
@@ -40,6 +44,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 "Ok",
                 textAlign: TextAlign.center,
                   ),
+                  //TODO CHANGE PATH
                   onPressed:MoveToEntryPage
                 )
               )
@@ -49,11 +54,21 @@ class _SignUpPageState extends State<SignUpPage> {
 
     );
   }
+  //TODO Send user input to FS and then navigate to 'EntryPage'-done
+  //http://tphangout.com/flutter-firestore-crud-reading-and-writing-data/
+void SendItBrother() {
+  Firestore.instance.collection('User').document().setData({'email':this._email,'First Name':this.fname,'Last Name':this.lname,'sk':this.fname[0]});
+  //Map<String, dynamic> data() =>{
+    //'email': this._email,
+ // };
+}
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(title:Text ('Create Your Account')),
-      body: new Form(
+      body:
+      new Form(
           key: _formKey,
           child: Column(
             children: <Widget>[
@@ -63,10 +78,13 @@ class _SignUpPageState extends State<SignUpPage> {
                     return 'Provide an email';
                   }
                 },
+
                 decoration: InputDecoration(
                     labelText: 'Email'
                 ),
-                onSaved: (input) => _email = input,
+                //onSaved: (input) => _email = input,
+                onSaved: (input){this._email=input;},
+
               ),
               TextFormField(
                 validator: (input) {
@@ -77,7 +95,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 decoration: InputDecoration(
                     labelText: 'Password'
                 ),
-                onSaved: (input) => _password = input,
+                onSaved: (input) {this._password = input;},
                 obscureText: true,
               ),
               TextFormField(
@@ -89,7 +107,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 decoration: InputDecoration(
                     labelText: 'First Name'
                 ),
-                onSaved: (input) => fname = input,
+                onSaved: (input) {this.fname = input;},
               ),
               TextFormField(
                 validator: (input) {
@@ -100,16 +118,21 @@ class _SignUpPageState extends State<SignUpPage> {
                 decoration: InputDecoration(
                     labelText: 'Last Name'
                 ),
-                onSaved: (input) => lname = input,
+                onSaved: (input){this.lname=input;},
               ),
 
               RaisedButton(
                 onPressed:signUp,
                 child: Text('Submit'),
               ),
+
             ],
-          )
+
+          ),
+
+
       ),
+
 
     );
   }
@@ -123,6 +146,7 @@ class _SignUpPageState extends State<SignUpPage> {
         final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
         FirebaseUser user= await _firebaseAuth.currentUser();
         user.sendEmailVerification();
+        SendItBrother();
         userinput();
         //now that the user has created an account they are sent back to the 'EntryPage'
           //userinput();

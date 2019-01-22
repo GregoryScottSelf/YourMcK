@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import'package:csi380/HomePage.dart';
+import'package:csi380/RequestAdmin.dart';
 class Settings extends StatefulWidget {
   @override
   _Settings createState() => _Settings ();
@@ -19,7 +21,11 @@ class _Settings extends State<Settings> {
           splashColor: Colors.yellow,
             color: Colors.deepPurple,
             child: new Text("Request Admin Access to a Group",style: new TextStyle(fontSize: 20.0,color: Colors.black),),
-            onPressed: (){},
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => RequestAdmin(), fullscreenDialog: true));
+            }
+            //Navigator.pushReplacement(context,MaterialPageRoute(
+            //    builder: (BuildContext context) => RequestAdmin()));},
           ),
           new RaisedButton(
 
