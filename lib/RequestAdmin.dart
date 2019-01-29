@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import'package:csi380/HomePage.dart';
+import'package:csi380/CreateAGroup.dart';
+import'package:csi380/ExistingGroup.dart';
 class RequestAdmin extends StatefulWidget {
   @override
   _RequestAdmin createState() => _RequestAdmin ();
@@ -22,9 +24,11 @@ class _RequestAdmin extends State<RequestAdmin>
               color: Colors.deepPurple,
               child: new Text("Create A New Group",style: new TextStyle(fontSize: 20.0,color: Colors.black),),
               onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => CreateAGroup(), fullscreenDialog: true));
               //Navigator.of(context).pop();
-              Navigator.push(context,MaterialPageRoute(
-              builder: (BuildContext context) => new HomePage()));},
+             // Navigator.push(context,MaterialPageRoute(
+              //builder: (BuildContext context) => new HomePage()))
+              ;},
     ),
 
             new RaisedButton(
@@ -33,9 +37,12 @@ class _RequestAdmin extends State<RequestAdmin>
               color: Colors.deepPurple,
               child: new Text("Chose An Existing Group",style: new TextStyle(fontSize: 20.0,color: Colors.black),),
               onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ExistingGroup(), fullscreenDialog: true));
               //Navigator.of(context).pop();
-              Navigator.push(context,MaterialPageRoute(
-              builder: (BuildContext context) => new HomePage()));},
+             // Navigator.push(context,MaterialPageRoute(
+             // builder: (BuildContext context) => new HomePage()));
+
+              },
       ),
 
 

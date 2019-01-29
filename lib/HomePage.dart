@@ -178,21 +178,21 @@ class HomePage extends StatefulWidget  {
                         }
                     ),
 
-                    /*
+                /*
                 new Divider(),
                 new ListTile(
                     title: new Text("Cancel"),
                     trailing: new Icon(Icons.cancel),
-                    onTap: () {
+                    onTap: (){Navigator.of(context).pop();Navigator.of(context).pop();}
                     //  Navigator.of(context).popUntil(ModalRoute.withName('/HomePage'));
                     //  Navigator.pushReplacement(context,new MaterialPageRoute(
                          // builder: (BuildContext context) => new HomePage()));
                       //Navigator.pop(context);
 
-                    }
+
 
                 )
-                */
+            */
 
                   ]
               ),
