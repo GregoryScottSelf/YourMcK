@@ -107,10 +107,7 @@ FirebaseUser user;
                 onPressed: Cancel,
                 child: Text('Cancel'),
               ),
-              RaisedButton(
-                onPressed: Cancell,
-                child: Text('asdf'),
-              ),
+
             ],
           )
       ),

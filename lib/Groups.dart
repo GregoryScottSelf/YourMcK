@@ -2,6 +2,7 @@
   TODO
   *Button to join a new group
   *Display all the groups the user is in-
+  *Make array contains modular-
 
 
  */
