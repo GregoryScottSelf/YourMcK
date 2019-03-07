@@ -96,7 +96,7 @@ class _EG extends State<ExistingGroup>
 Widget buildResultCard(data) {
   FirebaseUser user;
   void SendItBrother() async {
-    Firestore.instance.collection('ExistingRequestGroup').document().setData({'GrpName':data['Title'],'Username':user.uid});
+    Firestore.instance.collection('ExistingRequestGroup').document("Qkll33oFnUsqZcYObtCs").updateData({'GrpName':data['Title'],'Username':FieldValue.arrayUnion([user.uid])});
     //Map<String, dynamic> data() =>{
     //'email': this._email,
     // };

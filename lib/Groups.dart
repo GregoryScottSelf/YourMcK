@@ -17,12 +17,42 @@ class Groups extends StatefulWidget {
   _Groups createState() => _Groups ();
 }
 class _Groups extends State<Groups> {
-
+/*
   //irebaseUser user =  FirebaseAuth.getCurrentUser;
+  FirebaseUser user;
+  void SendItBrother() async {
+    //Firestore.instance.collection('RequestGroup').document().setData({'GrpName':this._name,'Description':this._description,'Username':user.uid});
+    //acquired user names email
+    //now performing logic for admin
+    Firestore.instance.collection("Group").where("Member",arrayContains: user.email).snapshots();
+    SnapshotMetadata snap;
+    print(user.email);
 
+
+
+
+    //Map<String, dynamic> data() =>{
+    //'email': this._email,
+    // };
+  }
+//get user email and send to fb
+  void getinfo()async{
+
+
+    user = await FirebaseAuth.instance.currentUser();
+
+    // print(user);
+    //user2=user;
+
+    SendItBrother();
+
+  }
+  */
   @override
+
   Widget build(BuildContext context) {
     return new Scaffold(
+
         appBar: new AppBar(backgroundColor: Colors.deepPurple,title:Text ('Groups')),
         body: new StreamBuilder(
           stream: Firestore.instance.collection("Group").where("Member",arrayContains: "Jef").snapshots(),
@@ -47,6 +77,42 @@ class _Groups extends State<Groups> {
 
 Widget buildResultCard(ds) {
 
+  FirebaseUser user2;
+  var stuff;
+
+
+FirebaseUser user;
+
+  void SendItBrother() async {
+    //Firestore.instance.collection('RequestGroup').document().setData({'GrpName':this._name,'Description':this._description,'Username':user.uid});
+    //acquired user names email
+    //now performing logic for admin
+
+
+   stuff=Firestore.instance.collection("Group").where("Admin",arrayContains: user.email).snapshots();
+
+ print(stuff.toString());
+
+
+
+    //Map<String, dynamic> data() =>{
+    //'email': this._email,
+    // };
+  }
+//get user email and send to fb
+  void getinfo()async{
+
+
+    user = await FirebaseAuth.instance.currentUser();
+
+   // print(user);
+    //user2=user;
+
+    SendItBrother();
+
+  }
+
+
   return Center(
       child: Card(
 
@@ -65,10 +131,11 @@ Widget buildResultCard(ds) {
                     ),
                     ButtonTheme.bar(
                         child:ButtonBar(
+
                           children: <Widget>[
                             FlatButton(
                               child: const Text('Open'),
-                              onPressed:(){},
+                              onPressed:(){getinfo();},
                             ),
 
                           ],

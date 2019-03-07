@@ -36,6 +36,7 @@ class _Friends extends State<Friends> {
     await showDialog(
         context:context,
         child:new SimpleDialog(
+
           title: new Text("Thank you for creating a group! You will be notified after your request is review."),
           children: <Widget>[
             new SimpleDialogOption(
@@ -47,8 +48,10 @@ class _Friends extends State<Friends> {
                       textAlign: TextAlign.center,
                     ),
                     //TODO CHANGE PATH
-                    onPressed:(){Navigator.push(context,MaterialPageRoute(
-                        builder: (BuildContext context) => new HomePage()));}
+                    onPressed:(){
+                      Navigator.push(context,MaterialPageRoute(
+                       builder: (BuildContext context) => new HomePage()));}
+                      //Navigator.pop(context);}
                 )
                 )
             )
@@ -58,7 +61,7 @@ class _Friends extends State<Friends> {
     );
   }
   void SendItBrother() async {
-    Firestore.instance.collection('RequestGroup').document().setData({'GrpName':this._name,'Description':this._description,'Username':user.uid});
+    Firestore.instance.collection('Event').document().setData({'GroupName':this._name,'EventTitle':this._description,'Username':user.uid,'Time':this._time,'Where':this._place});
     //Map<String, dynamic> data() =>{
     //'email': this._email,
     // };
@@ -72,6 +75,7 @@ class _Friends extends State<Friends> {
 
 
       body: Form(
+
           key: _formKey,
           child: Column(
             children: <Widget>[
@@ -147,8 +151,12 @@ class _Friends extends State<Friends> {
       try{
 
         getUserName();
+        Navigator.push(context,MaterialPageRoute(
+            builder: (BuildContext context) => new HomePage()));
         //SendItBrother();
-        userinput();
+        //TODO FIX POP
+        //userinput();
+        //TODO ---
         //now that the user has created an account they are sent back to the 'EntryPage'
         //userinput();
         //Navigator.of(context).pop();

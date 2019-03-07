@@ -15,7 +15,7 @@ class _Notifications extends State<Notifications> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: new AppBar(backgroundColor: Colors.deepPurple,title:new Center(child: new Text ('Notifications',textAlign: TextAlign.center))),
+
         body: new StreamBuilder(
             stream: Firestore.instance.collection("Event").where("GroupName",isEqualTo:"UPE").snapshots(),
           builder: (context,snapshot){

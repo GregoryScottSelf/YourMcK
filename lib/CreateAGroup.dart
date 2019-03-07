@@ -47,8 +47,12 @@ FirebaseUser user;
                       textAlign: TextAlign.center,
                     ),
                     //TODO CHANGE PATH
-                    onPressed:(){Navigator.push(context,MaterialPageRoute(
-                       builder: (BuildContext context) => new HomePage()));}
+                    //TODO FIX PATH
+                    onPressed:(){Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+
+                    }//Navigator.push(context,MaterialPageRoute(
+                      // builder: (BuildContext context) => new HomePage()));}
                 )
                 )
             )
