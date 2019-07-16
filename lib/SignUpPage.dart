@@ -57,7 +57,8 @@ class _SignUpPageState extends State<SignUpPage> {
   //TODO Send user input to FS and then navigate to 'EntryPage'-done
   //http://tphangout.com/flutter-firestore-crud-reading-and-writing-data/
 void SendItBrother() {
-  Firestore.instance.collection('User').document().setData({'email':this._email,'First Name':this.fname,'Last Name':this.lname,'sk':this.fname[0]});
+
+  Firestore.instance.collection('User').document().setData({'email':this._email,'First Name':this.fname,'sk':this.fname[0]});
   //Map<String, dynamic> data() =>{
     //'email': this._email,
  // };
@@ -101,26 +102,14 @@ void SendItBrother() {
               TextFormField(
                 validator: (input) {
                   if(input.isEmpty){
-                    return 'Provide Your Frist Name';
+                    return 'Provide Your Name';
                   }
                 },
                 decoration: InputDecoration(
-                    labelText: 'First Name'
+                    labelText: 'Full Name'
                 ),
                 onSaved: (input) {this.fname = input;},
               ),
-              TextFormField(
-                validator: (input) {
-                  if(input.isEmpty){
-                    return 'Provide Your Last Name';
-                  }
-                },
-                decoration: InputDecoration(
-                    labelText: 'Last Name'
-                ),
-                onSaved: (input){this.lname=input;},
-              ),
-
               RaisedButton(
                 onPressed:signUp,
                 child: Text('Submit'),

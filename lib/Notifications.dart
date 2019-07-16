@@ -4,6 +4,7 @@ import'package:csi380/HomePage.dart';
 import'package:csi380/RequestAdmin.dart';
 import'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import'package:csi380/entryscreen.dart';
 class Notifications extends StatefulWidget {
   @override
   _Notifications createState() => _Notifications ();
@@ -17,7 +18,7 @@ class _Notifications extends State<Notifications> {
     return new Scaffold(
 
         body: new StreamBuilder(
-            stream: Firestore.instance.collection("Event").where("GroupName",isEqualTo:"UPE").snapshots(),
+            stream: Firestore.instance.collection("Event").where("Member",arrayContains:us.email).snapshots(),
           builder: (context,snapshot){
             if(!snapshot.hasData)
               return new Text("Rendering...");

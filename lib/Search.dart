@@ -1,6 +1,8 @@
 import'package:flutter/material.dart';
 import'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csi380/SearchService.dart';
+import'package:csi380/entryscreen.dart';
+import'package:csi380/FriendRequest.dart';
 class Search extends StatefulWidget {
   @override
   _Search createState()=>new _Search();
@@ -44,26 +46,29 @@ class _Search extends State<Search>
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        body: ListView(children: <Widget>[
+       resizeToAvoidBottomPadding: false,
+        body:ListView(children: <Widget>[
+
           Padding(
+
             padding: const EdgeInsets.all(10.0),
             child: TextField(
+              style: new TextStyle(
+                  //fontSize: 10.0,
+                  height: 2.5,
+                  color: Colors.black
+              ),
+              autofocus: true,
+
               onChanged: (val) {
                 initiateSearch(val);
               },
               decoration: InputDecoration(
-                  prefixIcon: IconButton(
-                    color: Colors.black,
-                    icon: Icon(Icons.arrow_back),
-                    iconSize: 20.0,
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  contentPadding: EdgeInsets.only(left: 25.0),
+
+                  contentPadding: EdgeInsets.only(left: 10.0),
                   hintText: 'Search by name',
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4.0))),
+                      borderRadius: BorderRadius.circular(10.0))),
             ),
           ),
           SizedBox(height: 10.0),
@@ -82,6 +87,12 @@ class _Search extends State<Search>
 }
 
 Widget buildResultCard(data) {
+void LetsGetThisBread()async {
+  Firestore.instance.collection("FriendRequest").document().setData({'RQE':data['email'],'RQN':data["First Name"],'Email':us.email});
+  Firestore.instance.collection('Friend').document().setData({"List": ns['RQN'],"Email":us.email,"RQE":ns["RQE"]});
+
+
+}
   return Center(
      child: Card(
 
@@ -102,8 +113,10 @@ Widget buildResultCard(data) {
                 child:ButtonBar(
                   children: <Widget>[
                     FlatButton(
-                      child: const Text('Add Friend'),
-                      onPressed: () {/* ... */},
+                      child: const Text('Send Request'),
+                      onPressed: (
+
+                          ) {LetsGetThisBread();},
                     ),
 
                   ],
@@ -114,5 +127,4 @@ Widget buildResultCard(data) {
           )
          )
       );
-
 }

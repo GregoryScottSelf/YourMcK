@@ -55,6 +55,8 @@ class _EG extends State<ExistingGroup>
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+        appBar: new AppBar(backgroundColor: Colors.deepPurple),
+        resizeToAvoidBottomPadding: false,
         body: ListView(children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(10.0),

@@ -14,6 +14,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import'package:csi380/HomePage.dart';
 import'package:csi380/SignUpPage.dart';
+FirebaseUser us;
+void getinfo()async {
+  us = await FirebaseAuth.instance.currentUser();
+}
 class EntryPage extends StatefulWidget
 {
 
@@ -85,7 +89,9 @@ class  _EntryPage extends State<EntryPage>
     if(_formKey.currentState.validate()){
       _formKey.currentState.save();
       try{
+
         FirebaseUser user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
+        getinfo();
         /*
             *User will either be approved or denied access to account
             * .pushReplacement Does not allow the user to naviagate back to the 'EntryScreen' page
@@ -116,7 +122,7 @@ class  _EntryPage extends State<EntryPage>
                             textAlign: TextAlign.center,
                           ),
                           onPressed:(){  Navigator.of(context).pop();
-                        }
+                          }
                       )
                       )
                   )

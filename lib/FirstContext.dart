@@ -1,22 +1,57 @@
 import'package:flutter/material.dart';
 import'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import'package:csi380/entryscreen.dart';
+import'package:csi380/HomePage.dart';
+import'package:firebase_messaging/firebase_messaging.dart';
+
+
 class FirstContext extends StatefulWidget {
   @override
   _FirstContext createState() => _FirstContext ();
 
 }
+
+var s;
 class _FirstContext extends State<FirstContext> {
 
+  FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+
   @override
+  void initState() {
+    super.initState();
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) {
+        print('on message $message');
+      },
+      onResume: (Map<String, dynamic> message) {
+        print('on resume $message');
+      },
+      onLaunch: (Map<String, dynamic> message) {
+        print('on launch $message');
+      },
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
+    _firebaseMessaging.getToken().then((token){
+      print(token);
+    });
+  }
+
+
+  @override
+
   Widget build(BuildContext context) {
     return new Scaffold(
 
         body: new StreamBuilder(
-          stream: Firestore.instance.collection("Event").where("GroupName",isEqualTo:"UPE").snapshots(),
+          //change query?
+          stream:Firestore.instance.collection("Event").where("Member",arrayContains: us.email).snapshots(),
+
           builder: (context,snapshot){
-            if(!snapshot.hasData)
+            if(!snapshot.hasData) {
               return new Text("Rendering...");
+            }
             return new ListView.builder(
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context,index){
@@ -31,15 +66,15 @@ class _FirstContext extends State<FirstContext> {
     );
 
   }
-
+//Firestore.instance.collection("Event").where("GroupName",isEqualTo:"UPE").snapshots(),
 
 
 }
 Widget buildResultCard(ds) {
   FirebaseUser user;
   void SendItBrotherGoing() async {
-    Firestore.instance.collection('Event').document(
-        "Hz0ZQnK8Nb65a6mY6BYD").updateData({"Going": FieldValue.arrayUnion([user.uid])});
+    Firestore.instance.collection('Event').document("xHgNyAwh7EKbqUav8OQw"
+        ).updateData({"Going": FieldValue.arrayUnion([user.uid+" "+ds['GroupName']+" "+ds['Where']])});
     //acquired user names email
     //now performing logic for admin
 
@@ -48,8 +83,8 @@ Widget buildResultCard(ds) {
     // };
   }
   void SendItBrotherSkip() async {
-    Firestore.instance.collection('Event').document(
-        "Hz0ZQnK8Nb65a6mY6BYD").updateData({"Skip": FieldValue.arrayUnion([user.uid])});
+    Firestore.instance.collection('Event').document("xHgNyAwh7EKbqUav8OQw"
+        ).updateData({"Skip": FieldValue.arrayUnion([user.uid+" "+ds['GroupName']+" "+ds['Where']])});
     //acquired user names email
     //now performing logic for admin
 
@@ -58,9 +93,8 @@ Widget buildResultCard(ds) {
     // };
   }
   void SendItBrotherMaybe() async {
-    Firestore.instance.collection('Event').document(
-        "Hz0ZQnK8Nb65a6mY6BYD").updateData({"Maybe": FieldValue.arrayUnion([user.uid])});
-    //acquired user names email
+    Firestore.instance.collection('Event').document("xHgNyAwh7EKbqUav8OQw"
+    ).updateData({"Maybe": FieldValue.arrayUnion([user.uid+" "+ds['GroupName']+" "+ds['Where']])});
     //now performing logic for admin
 
     //Map<String, dynamic> data() =>{

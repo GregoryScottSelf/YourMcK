@@ -3,6 +3,7 @@ import'package:csi380/HomePage.dart';
 import'package:csi380/RequestAdmin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:csi380/entryscreen.dart';
+import'dart:io';
 class Settings extends StatefulWidget {
   @override
   _Settings createState() => _Settings ();
@@ -29,13 +30,7 @@ class _Settings extends State<Settings> {
             //Navigator.pushReplacement(context,MaterialPageRoute(
             //    builder: (BuildContext context) => RequestAdmin()));},
           ),
-          new RaisedButton(
 
-            splashColor: Colors.yellow,
-            color: Colors.deepPurple,
-            child: new Text("Manage Notifications",style: new TextStyle(fontSize: 20.0,color: Colors.black),),
-            onPressed: (){},
-          ),
           new RaisedButton(
 
             splashColor: Colors.yellow,
@@ -73,14 +68,19 @@ class _Settings extends State<Settings> {
                  */
                 onPressed:(){
                   remove()async{
+
                     FirebaseUser user =await FirebaseAuth.instance.currentUser();
                     user.delete();
                     FirebaseAuth.instance.signOut().then((value) {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(
-                              builder: (context) => EntryPage()));
+                      //close application
+                      exit(0);
+                      //Navigator.pushReplacement(context,
+                        //  MaterialPageRoute(
+                            //  builder: (context) => EntryPage()));
 
-                    }).catchError((e) {
+                    }
+
+                    ).catchError((e) {
                       //modal for logout error
                       Future<Null> LogOutError() async {
                         await showDialog(

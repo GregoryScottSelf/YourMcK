@@ -12,11 +12,20 @@ import'package:csi380/HomePage.dart';
 import'package:csi380/RequestAdmin.dart';
 import'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:csi380/CreateAPost.dart';
+import'package:csi380/JoinAGroup.dart';
 class Groups extends StatefulWidget {
   @override
   _Groups createState() => _Groups ();
 }
+DocumentSnapshot Testifwork;
 class _Groups extends State<Groups> {
+  FirebaseUser user;
+ Future<Null> fun() async{
+    user = await FirebaseAuth.instance.currentUser();
+    return user;
+  }
+
 /*
   //irebaseUser user =  FirebaseAuth.getCurrentUser;
   FirebaseUser user;
@@ -53,21 +62,39 @@ class _Groups extends State<Groups> {
   Widget build(BuildContext context) {
     return new Scaffold(
 
-        appBar: new AppBar(backgroundColor: Colors.deepPurple,title:Text ('Groups')),
+        appBar: new AppBar(backgroundColor: Colors.deepPurple,title:Text ('Groups'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.group_add),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => JoinAGroup(), fullscreenDialog: true));
+            },
+          ),
+        ],
+
+
+        ),
         body: new StreamBuilder(
-          stream: Firestore.instance.collection("Group").where("Member",arrayContains: "Jef").snapshots(),
+
+          //pull Members array from FB, display groups to this specific user
+          stream: Firestore.instance.collection("Group").where("Member",arrayContains: u.email).snapshots(),
           builder: (context,snapshot){
             if(!snapshot.hasData)
               return new Text("Rendering...");
+
+
             return new ListView.builder(
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context,index){
-                  DocumentSnapshot ds=snapshot.data.documents[index];
-                  return buildResultCard(ds);
+                  Testifwork=snapshot.data.documents[index];
+                  return buildResultCard(Testifwork,context);
                 }
+
             );
+
           },
         )
+
     );
 
   }
@@ -75,23 +102,50 @@ class _Groups extends State<Groups> {
 
 }
 
-Widget buildResultCard(ds) {
+Widget buildResultCard(ds,context) {
 
   FirebaseUser user2;
-  var stuff;
+ var stuff;
 
 
 FirebaseUser user;
 
-  void SendItBrother() async {
+  void ConfirmAdmin() async {
     //Firestore.instance.collection('RequestGroup').document().setData({'GrpName':this._name,'Description':this._description,'Username':user.uid});
     //acquired user names email
     //now performing logic for admin
 
+var s;
 
-   stuff=Firestore.instance.collection("Group").where("Admin",arrayContains: user.email).snapshots();
+   Firestore.instance.collection("Group").where("Admin",arrayContains: user.email).snapshots();
+   // print(user.email);
+   // print(ds["Admin"][0]);
 
- print(stuff.toString());
+    /*for(int i=0;i<ds["Admin"];i++)
+      {
+        print(ds["Admin"][i]);
+      }
+      */
+    s=ds["Admin"];
+    //TODO FIX LENGTH
+    for(int i=0;i<ds["Admin"][i].length;i++)
+      {
+        print(ds["Admin"][i]);
+        if(ds["Admin"][i]==user.email)
+          {
+            print("hello");
+            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateAPost(), fullscreenDialog: true));
+
+          }
+      }
+
+    if(user.email==ds["Admin"])
+      {
+        print(ds["Admin"]);
+        print(ds["Admin"]);
+        print("hello");
+      }
+ //print(stuff.toString());
 
 
 
@@ -104,13 +158,16 @@ FirebaseUser user;
 
 
     user = await FirebaseAuth.instance.currentUser();
-
+    //print(user.email);
    // print(user);
     //user2=user;
+    stuff=user.email;
+   // print(stuff.toString());
 
-    SendItBrother();
+    ConfirmAdmin();
 
   }
+
 
 
   return Center(
@@ -134,12 +191,18 @@ FirebaseUser user;
 
                           children: <Widget>[
                             FlatButton(
-                              child: const Text('Open'),
+                              child: const Text('View Members'),
+                              //show users
+                              onPressed:(){ShowUsers(ds, context);},
+),
+                            FlatButton(
+                              child: const Text('Create A Post'),
                               onPressed:(){getinfo();},
                             ),
 
                           ],
                         )
+
                     )
                   ]
               )
@@ -147,4 +210,44 @@ FirebaseUser user;
       )
   );
 
+
+}
+Widget ShowUsers(ds,context){
+FirebaseUser user;
+Future<Null> fun() async{
+  user = await FirebaseAuth.instance.currentUser();
+  return user;
+}
+
+  //TODO FIX SCROLL
+  Future<Null> Show()async{
+    await showDialog(
+        context:context,
+        child:new SimpleDialog(
+          title: new Text(
+
+             ds["Member"].toString()//+ds["Member"][1]
+
+          ),
+          children: <Widget>[
+            new SimpleDialogOption(
+
+                child:Center(child: new RaisedButton(
+                    child:new Text(
+                      "Ok",
+                      textAlign: TextAlign.center,
+                    ),
+                    onPressed:(){  Navigator.of(context).pop();
+                    }
+                )
+                )
+            )
+          ],
+        )
+
+    );
+
+
+  }
+ Show();
 }

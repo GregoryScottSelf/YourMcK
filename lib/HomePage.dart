@@ -22,6 +22,9 @@ import'package:csi380/Search.dart';
 import'package:csi380/Friends.dart';
 import'package:csi380/Notifications.dart';
 import'package:csi380/FirstContext.dart';
+import'package:csi380/FriendRequest.dart';
+
+import'package:firebase_messaging/firebase_messaging.dart';
 
 /*
 abstract class BaseAuth {
@@ -33,6 +36,13 @@ abstract class BaseAuth {
 
 }
 */
+FirebaseUser u;
+void getinfo(context)async {
+  u = await FirebaseAuth.instance.currentUser();
+  Navigator.push(context, MaterialPageRoute(
+      builder: (context) => Groups(),
+      fullscreenDialog: true));
+}
 some() async {
   FirebaseUser user = await FirebaseAuth.instance.currentUser();
   print(user.email);
@@ -46,7 +56,6 @@ class HomePage extends StatefulWidget  {
   }
 
   class _HomePage extends State<HomePage> {
-
 
 
 
@@ -77,32 +86,32 @@ class HomePage extends StatefulWidget  {
  */
 
     @override
+
     Widget build(BuildContext context) {
       return new MaterialApp(
+        debugShowCheckedModeBanner: false,
         home:
         DefaultTabController(
           length: 5,
           child: Scaffold(
-            appBar: new AppBar(backgroundColor: Colors.blue,
+            appBar: new AppBar(backgroundColor: Colors.deepPurple,
                 iconTheme: new IconThemeData(color: Colors.black),
+
+                 title:Row(
+                     mainAxisAlignment: MainAxisAlignment.end,
+                     mainAxisSize: MainAxisSize.max,
+                     children: <Widget>[
+                     //Text(us.email)
+                ],
+                 ),
+
                 ),
 
             drawer: new Drawer(
 
               child: new ListView(
                   children: <Widget>[
-                    UserAccountsDrawerHeader(
-                      accountName: Text('Name'),
-                      accountEmail: Text("AccountEmail"),
-                      currentAccountPicture: CircleAvatar(
-                        backgroundColor:
-                        Colors.white,
-                        child: Text(
-                          "A",
-                          style: TextStyle(fontSize: 40.0),
-                        ),
-                      ),
-                    ),
+
                     new ListTile(
                         title: new Text("Groups"),
                         trailing: new Icon(Icons.group),
@@ -111,9 +120,8 @@ class HomePage extends StatefulWidget  {
                           // Navigator.pushReplacementNamed(context,'/Groups');
                           //Navigator.pop(context);
                           // Navigator.pushReplacement(context,   MaterialPageRoute(builder: (context) =>Groups()));
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => Groups(),
-                              fullscreenDialog: true));
+                          getinfo(context);
+
 
 
                           //  Navigator.push(context,
@@ -137,6 +145,22 @@ class HomePage extends StatefulWidget  {
                         }
 
                     ),
+                    new Divider(),
+                    new ListTile(
+                        title: new Text("Friend Requests"),
+
+                        trailing: new Icon(Icons.person_add),
+                        onTap: () {
+                          // Navigator.of(context).pop();
+                          // Navigator.pushReplacement(context,
+                          // MaterialPageRoute(builder: (context) => Settings()));
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context) => FriendRequest(),
+                              fullscreenDialog: true));
+                        }
+
+                    ),
+
                     new Divider(),
                     new ListTile(
                         title: new Text("Logout"),
@@ -205,6 +229,7 @@ class HomePage extends StatefulWidget  {
                 new Search(),
                 new Friends(),
                 new Notifications(),
+
               ],
             ),
 
@@ -240,6 +265,7 @@ class HomePage extends StatefulWidget  {
                 Tab(
                   icon: new Icon(Icons.person_outline),
                 ),
+
                 Tab(
                   icon: new Icon(Icons.notifications_active),
                 )
